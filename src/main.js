@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './myRouter'
-console.log('1111111111111')
+console.log('222222222')
 // import router from './router'
 
 Vue.config.productionTip = false
