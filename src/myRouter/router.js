@@ -2,7 +2,7 @@
  * @Author: sundada
  * @Date: 2020-08-02 15:15:06
  * @Last Modified by: sundada
- * @Last Modified time: 2020-08-02 15:30:49
+ * @Last Modified time: 2020-08-02 19:41:36
  */
 /* eslint-disable */
 let Svue
@@ -10,13 +10,15 @@ class VueRouter {
   constructor(options) {
     // Svue
     this.$options = options
-    this.current = new Svue({
-      data () {
-        return {
-          url: window.location.hash.slice(1) || '/'
-        }
-      }
-    })
+    // this.current = new Svue({
+    //   data () {
+    //     return {
+    //       url: window.location.hash.slice(1) || '/'
+    //     }
+    //   }
+    // })
+    const inital = window.location.hash.slice(1) || '/'
+    Svue.util.defineReactive(this, 'current', inital)
     this.routerMap = {}
     this.$options.routes.forEach(route => {
       this.routerMap[route.path] = route
@@ -25,7 +27,8 @@ class VueRouter {
     window.addEventListener('load', this.hashchange.bind(this))
   }
   hashchange () {
-    this.current.url = window.location.hash.slice(1)
+    this.current = window.location.hash.slice(1)
+    // this.current.url = window.location.hash.slice(1)
   }
 }
 VueRouter.install = function (Vue) {
@@ -38,7 +41,6 @@ VueRouter.install = function (Vue) {
     }
   })
   Vue.component('router-link', {
-
     props: {
       to: {
         type: String,
@@ -59,7 +61,8 @@ VueRouter.install = function (Vue) {
       // const comp = routes.find(route => route.path === this.$router.current.url).component
       const { current, routerMap } = this.$router
       console.log('render')
-      const comp = routerMap[current.url] ? routerMap[current.url].component : null
+      // const comp = routerMap[current.url] ? routerMap[current.url].component : null
+      const comp = routerMap[current] ? routerMap[current].component : null
       return h(comp)
     }
   })

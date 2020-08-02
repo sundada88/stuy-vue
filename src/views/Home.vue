@@ -104,6 +104,11 @@ export default {
         // }
       })
     }
+  },
+  mounted () {
+    console.log(this._data)
+    console.log(this.$data)
+    console.log(this._data === this.$data)
   }
 }
 </script>
