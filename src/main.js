@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './myRouter'
+// import store from './Mystore2'
 import store from './Mystore'
 // import store from './store'
 // import router from './router'

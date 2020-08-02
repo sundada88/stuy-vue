@@ -9,6 +9,11 @@
 
 <script>
 export default {
+  // computed: {
+  //   handel () {
+  //     return
+  //   }
+  // }
   methods: {
     handleAdd () {
       this.$store.commit('add', 2)
