@@ -1,3 +1,9 @@
+/*
+ * @Author: sundada
+ * @Date: 2020-08-02 15:15:06
+ * @Last Modified by: sundada
+ * @Last Modified time: 2020-08-02 15:30:49
+ */
 /* eslint-disable */
 let Svue
 class VueRouter {
@@ -11,7 +17,12 @@ class VueRouter {
         }
       }
     })
+    this.routerMap = {}
+    this.$options.routes.forEach(route => {
+      this.routerMap[route.path] = route
+    })
     window.addEventListener('hashchange', this.hashchange.bind(this))
+    window.addEventListener('load', this.hashchange.bind(this))
   }
   hashchange () {
     this.current.url = window.location.hash.slice(1)
@@ -44,8 +55,11 @@ VueRouter.install = function (Vue) {
   })
   Vue.component('router-view', {
     render (h) {
-      const routes = this.$router.$options.routes
-      const comp = routes.find(route => route.path === this.$router.current.url).component
+      // const routes = this.$router.$options.routes
+      // const comp = routes.find(route => route.path === this.$router.current.url).component
+      const { current, routerMap } = this.$router
+      console.log('render')
+      const comp = routerMap[current.url] ? routerMap[current.url].component : null
       return h(comp)
     }
   })
