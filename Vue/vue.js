@@ -33,6 +33,7 @@ class Vue {
     observe(this.$data)
     this.proxy(this.$data)
     new Compiler(options.el, this)
+
   }
   proxy (data) {
     Object.keys(data).forEach(key => {
@@ -95,9 +96,17 @@ class Compiler {
     for (let attr of attrs) {
       const attrName = attr.name
       const exp = attr.value
+      // 以s-开头
       if (this.isDirective(attrName)) {
         const dir = attrName.substring(2)
         this[dir] && this[dir](node, exp)
+      }
+      // 以@开头
+      if (this.isEvent(attrName)) {
+
+        const dir = attrName.substring(1)
+        // this[dir] && this[dir](node, exp)
+        this.eventListener(node, exp, dir)
       }
     }
   }
@@ -105,14 +114,30 @@ class Compiler {
   isDirective (attrName) {
     return attrName.startsWith('s-')
   }
+  isEvent (attrName) {
+    return attrName.startsWith('@')
+  }
   text (node, exp) {
     // node.textContent = this.$vm[exp]
     this.update(node, exp, 'text')
   }
   html (node, exp) {
     this.update(node, exp, 'html')
-
   }
+
+  model (node, exp) {
+    this.update(node, exp, 'model')
+    node.addEventListener('input', e => {
+      this.$vm[exp] = e.target.value
+    })
+  }
+  eventListener (node, exp, dir) {
+    console.log(exp)
+    const fn = this.$vm.$options.methods && this.$vm.$options.methods[exp]
+    console.log(fn)
+    node.addEventListener(dir, fn.bind(this.$vm))
+  }
+
   update (node, exp, dir) {
     // 初始化
     const fn = this[dir + 'Updater']
@@ -126,6 +151,9 @@ class Compiler {
   }
   htmlUpdater (node, value) {
     node.innerHTML = value
+  }
+  modelUpdater (node, value) {
+    node.value = value
   }
 }
 const watchers = []
