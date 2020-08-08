@@ -4,11 +4,17 @@
     <h1 @click="handleAdd">{{$store.state.count}}</h1>
     <h1 @click="handleAddAsync">async: {{$store.state.count}}</h1>
     <h1>{{$store.getters.doubleCount}}</h1>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      test: 1
+    }
+  },
   // computed: {
   //   handel () {
   //     return
@@ -21,6 +27,11 @@ export default {
     handleAddAsync () {
       this.$store.dispatch('addAsync')
     }
+  },
+  mounted () {
+    console.log(this)
+    console.log(this === this.$vnode.child)
+    console.log(this.$vnode)
   }
 }
 </script>

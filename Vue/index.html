@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <p>{{counter}}</p>
+      <p s-text="counter"></p>
+      <p s-html="test"></p>
+    </div>
+  </body>
+  <!-- <script src="./defineProperty.js"></script> -->
+  <script src="./vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        counter: 1,
+        test: 'hahhahah<span style="color: red">sundada</span>'
+      },
+      methods: {
+        handleClick(counter, test) {
+          // console.log(data)
+          console.log(11111)
+          console.log(counter)
+          console.log(test)
+        }
+      }
+    })
+    setInterval(() => {
+      app.counter++
+      if (app.counter === 10) {
+        app.test = 1
+      }
+    }, 1000)
+  </script>
+  <!-- <script>
+    const a = false
+    function foo() {
+      a && console.log(a)
+      return a
+    }
+    const b = foo()
+    console.log(b)
+  </script> -->
+</html>

@@ -2,12 +2,14 @@
  * @Author: sundada
  * @Date: 2020-08-02 16:23:32
  * @Last Modified by: sundada
- * @Last Modified time: 2020-08-03 08:56:38
+ * @Last Modified time: 2020-08-04 10:34:41
  */
 
 /* eslint-disable */
 let Svue
 function install (Vue) {
+  if (install.installed) return
+  install.installed = true
   Svue = Vue
   Vue.mixin({
     beforeCreate () {

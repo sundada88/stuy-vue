@@ -2,7 +2,7 @@
  * @Author: sundada
  * @Date: 2020-08-02 15:15:06
  * @Last Modified by: sundada
- * @Last Modified time: 2020-08-02 19:41:36
+ * @Last Modified time: 2020-08-04 09:48:31
  */
 /* eslint-disable */
 let Svue
@@ -17,7 +17,7 @@ class VueRouter {
     //     }
     //   }
     // })
-    const inital = window.location.hash.slice(1) || '/'
+    const inital = window.location.hash.slice(1) || '/#'
     Svue.util.defineReactive(this, 'current', inital)
     this.routerMap = {}
     this.$options.routes.forEach(route => {
@@ -27,7 +27,8 @@ class VueRouter {
     window.addEventListener('load', this.hashchange.bind(this))
   }
   hashchange () {
-    this.current = window.location.hash.slice(1)
+    window.location.hash = window.location.hash ? window.location.hash.slice(1) : '/'
+    this.current = window.location.hash.slice(1) || '/#'
     // this.current.url = window.location.hash.slice(1)
   }
 }
