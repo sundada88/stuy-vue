@@ -26,7 +26,7 @@ function observe (obj) {
 
   new Observe(obj)
 }
-const watchers = []
+// const watchers = []
 class Svue {
   constructor(options) {
     this.$options = options
@@ -37,7 +37,6 @@ class Svue {
     this.proxy(this.$data)
     new Compiler(options.el, this)
   }
-
   // 给vue实例做代理
   proxy (obj) {
     Object.keys(obj).forEach(key => {
@@ -78,10 +77,13 @@ class Compiler {
   compile (el) {
     el.childNodes.forEach(node => {
       if (this.isElement(node)) {
+        // 元素节点
         this.compileElement(node)
       } else if (this.isInter(node)) {
+        // 差值表达式{{}}
         this.compileText(node)
       }
+      // 子元素进行遍历
       if (node.childNodes) {
         this.compile(node)
       }

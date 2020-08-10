@@ -30,8 +30,6 @@ function observe (obj) {
     return
   }
   if (Array.isArray(obj)) {
-    console.log('进来了数组的操作')
-    console.log(overProto.push)
     console.log(obj)
     obj.__proto__ = overProto
     const keys = Object.keys(obj)

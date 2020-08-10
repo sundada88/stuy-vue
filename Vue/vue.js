@@ -132,9 +132,7 @@ class Compiler {
     })
   }
   eventListener (node, exp, dir) {
-    console.log(exp)
     const fn = this.$vm.$options.methods && this.$vm.$options.methods[exp]
-    console.log(fn)
     node.addEventListener(dir, fn.bind(this.$vm))
   }
 
