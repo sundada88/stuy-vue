@@ -44,7 +44,6 @@ VueRouter.install = function (vue) {
     beforeCreate () {
       // console.log(this.$options)
       if (this.$options && this.$options.router) {
-        console.log(this.$options.$router)
         this._root = this
         this._router = this.$options.router
         vue.util.defineReactive(this, 'current', this._router.history)

@@ -2,7 +2,7 @@
  * @Author: sundada
  * @Date: 2020-08-02 15:15:06
  * @Last Modified by: sundada
- * @Last Modified time: 2020-08-04 16:14:58
+ * @Last Modified time: 2020-08-25 10:52:16
  */
 /* eslint-disable */
 let Svue
@@ -78,10 +78,6 @@ VueRouter.install = function (Vue) {
         }
         parent = parent.$parent
       }
-      console.log('这是router--view的深度')
-      console.log(depth)
-      console.log(this.$router.matched)
-      console.log(this.$router.matched[depth])
       let comp = null
       const route = this.$router.matched[depth]
       if (route) {
