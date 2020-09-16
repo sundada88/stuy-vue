@@ -24,91 +24,100 @@ function observe (obj) {
   }
   new Observe(obj)
 }
-// const watchers = []
-class Svue {
+class Vue {
   constructor(options) {
     this.$options = options
     this.$data = options.data
     observe(this.$data)
-    this.proxy()
+    this.proxy(this.$data)
     new Compiler(options.el, this)
   }
-  proxy () {
-    Object.keys(this.$data).forEach(key => {
+  proxy (data) {
+    Object.keys(data).forEach(key => {
       Object.defineProperty(this, key, {
         get () {
           return this.$data[key]
         },
-        set (val) {
-          this.$data[key] = val
+        set (newVal) {
+          if (newVal !== this.$data[key]) {
+            this.$data[key] = newVal
+          }
         }
       })
     })
   }
 }
-// 每一个响应式对象，就伴生一个Observe对象
+// 每一个对象都是一个OBserve实例
 class Observe {
   constructor(data) {
     this.$data = data
-    this.walk(this.$data)
+    // 进行响应式操作
+    this.walk(data)
   }
-  walk (data) {
-    Object.keys(data).forEach(key => {
-      defineReactive(data, key, data[key])
+  walk (obj) {
+    Object.keys(obj).forEach(key => {
+      defineReactive(obj, key, obj[key])
     })
   }
 }
-// 编译
+// 编译模板
 class Compiler {
   constructor(el, vm) {
-    this.$vm = vm
     this.$el = document.querySelector(el)
-    this.$el && this.compile(this.$el)
+    this.$vm = vm
+    this.$el && this.compiler(this.$el)
   }
-  compile (el) {
-    const nodes = el.childNodes
-    if (nodes) {
-      for (let node of nodes) {
+  // 处理子节点
+  compiler (el) {
+    // 获取子节点
+    if (el.childNodes) {
+      el.childNodes.forEach(node => {
         if (this.isElement(node)) {
-          this.compileElement(node)
-        } else if (this.isInter(node)) {
-          this.compileText(node)
+          // 元素类型的
+          this.compilerEle(node)
+        } else if (this.isInteger(node)) {
+          // 差值表达式类型的
+          this.compilerText(node)
         }
-        this.compile(node)
-      }
+        // 递归处理子节点
+        this.compiler(node)
+      })
     }
   }
-  isElement (node) {
-    return node.nodeType === 1
-  }
-  isInter (node) {
-    return node.nodeType === 3 && /\{\{(.+)\}\}/.test(node.textContent)
-  }
-
-  compileElement (node) {
+  compilerEle (node) {
     const attributes = node.attributes
-    for (let att of attributes) {
-      const attrName = att.name
-      const exp = att.value
-      // 这是以s-开头的属性
+    // 处理元素的属性
+    for (let attribute of attributes) {
+      // s-text = 'counter' @click='handleClick'
+      // s-text  @click
+      const attrName = attribute.name
+      // counter  handleClick
+      const exp = attribute.value
+      // 以s-开头的指令
       if (this.isDirective(attrName)) {
         const dir = attrName.substring(2)
         this[dir] && this[dir](node, exp)
       }
+      /// 以@开头
+      if (this.isEvent(attrName)) {
+        const dir = attrName.substring(1)
+        this.handleEvent(node, exp, dir)
+      }
     }
   }
-  isDirective (attrName) {
-    return attrName.startsWith('s-')
-  }
-  compileText (node) {
+  compilerText (node) {
+    // 需要通知
     // node.textContent = this.$vm[RegExp.$1]
     this.update(node, RegExp.$1, 'text')
+
   }
   text (node, exp) {
+    // 需要通知
     // node.textContent = this.$vm[exp]
     this.update(node, exp, 'text')
   }
   html (node, exp) {
+    // 需要通知
     // node.innerHTML = this.$vm[exp]
     this.update(node, exp, 'html')
   }
@@ -118,11 +127,15 @@ class Compiler {
       this.$vm[exp] = e.target.value
     })
   }
+  handleEvent (node, exp, dir) {
+    node.addEventListener(dir, this.$vm.$options.methods[exp].bind(this.$vm))
+  }
+  // 通知函数
   update (node, exp, type) {
     const fn = this[type + 'Updater']
-    // 初始化视图
+    // 初始化
     fn && fn(node, this.$vm[exp])
-    new Watcher(this.$vm, exp, (val) => {
+    new Watcher(this.$vm, exp, function (val) {
       fn && fn(node, val)
     })
   }
@@ -134,9 +147,22 @@ class Compiler {
   }
   modelUpdater (node, value) {
     node.value = value
+
+  }
+  isElement (node) {
+    return node.nodeType === 1
+  }
+  isInteger (node) {
+    return node.nodeType === 3 && /\{\{(.+)\}\}/.test(node.textContent)
+  }
+  isDirective (attrName) {
+    return attrName && attrName.startsWith('s-')
+  }
+  isEvent (attrName) {
+    return attrName.startsWith('@')
   }
 }
-const watchers = []
+// const watchers = []
 class Watcher {
   constructor(vm, key, fn) {
     this.$vm = vm
@@ -151,7 +177,6 @@ class Watcher {
     this.$fn.call(this.$vm, this.$vm[this.$key])
   }
 }
-
 class Dep {
   constructor() {
     this.deps = []
@@ -160,6 +185,8 @@ class Dep {
     this.deps.push(watcher)
   }
   notify () {
-    this.deps.forEach(w => w.update())
+    // this.deps.forEach(w => w.update())
+    this.deps.forEach(w => w.update()
+    )
   }
 }

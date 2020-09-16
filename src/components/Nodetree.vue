@@ -4,10 +4,12 @@
     <label>{{model.title}}</label>
 
     <div>
-      <nodetree v-for="item in model.children"
-                :model="item"
-                :key="item.title"
-                :level="level + 1"></nodetree>
+      <nodetree
+        v-for="item in model.children"
+        :model="item"
+        :key="item.title"
+        :level="level + 1"
+      ></nodetree>
     </div>
   </div>
 </template>

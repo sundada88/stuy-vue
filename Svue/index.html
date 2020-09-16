@@ -7,9 +7,10 @@
   </head>
   <body>
     <div id="app">
-      <p @click="handleClick(counter, test)">{{counter}}</p>
+      <p>{{counter}}</p>
       <p s-text="counter" @click="handleClick(counter)"></p>
       <p s-html="test"></p>
+      <input type="text" s-model="test" />
     </div>
   </body>
   <!-- <script src="./defineProperty.js"></script> -->
@@ -24,18 +25,18 @@
       methods: {
         handleClick(counter, test) {
           // console.log(data)
-          console.log(11111)
-          console.log(counter)
-          console.log(test)
+          console.log(11111);
+          console.log(counter);
+          console.log(test);
         }
       }
-    })
+    });
     setInterval(() => {
-      app.counter++
+      app.counter++;
       if (app.counter === 10) {
-        app.test = 1
+        app.test = 1;
       }
-    }, 1000)
+    }, 1000);
   </script>
   <!-- <script>
     const a = false

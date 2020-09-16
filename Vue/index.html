@@ -7,14 +7,26 @@
   </head>
   <body>
     <div id="app">
+      <div>aaaaaaaaaaaaaaaa</div>
       <p @click="onClick">{{counter}}</p>
       <p s-text="counter"></p>
+      <div>
+        <p>
+          <p>
+            <p>
+              <p>
+                {{counter}}
+              </p>
+            </p>
+          </p>
+        </p>
+      </div>
       <p s-html="test"></p>
       <input type="text" s-model="test" />
+      <input type="text" @input="handleInput" />
     </div>
   </body>
-  <script src="./defineProperty.js"></script>
-  <script src="./vue.js"></script>
+  <script src="./svue.js"></script>
   <script>
     const app = new Vue({
       el: '#app',
@@ -25,22 +37,25 @@
       methods: {
         handleClick(counter, test) {
           // console.log(data)
-          console.log(11111)
-          console.log(counter)
-          console.log(test)
+          console.log(11111);
+          console.log(counter);
+          console.log(test);
         },
         onClick() {
           // console.log(this.counter)
-          this.counter++
+          this.counter++;
+        },
+        handleInput(e) {
+          console.log(e.target.value);
         }
       }
-    })
-    // setInterval(() => {
-    //   app.counter++
-    //   if (app.counter === 10) {
-    //     app.test = 1
-    //   }
-    // }, 1000)
+    });
+    setInterval(() => {
+      app.counter++;
+      if (app.counter === 10) {
+        app.test = 1;
+      }
+    }, 1000);
   </script>
   <!-- <script>
     const a = false

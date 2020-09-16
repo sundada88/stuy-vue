@@ -41,11 +41,10 @@ export default {
     handleTouchStart (event) {
       this.restTouchStatus()
       this.startValue = this.value
+      console.log(event)
       const touch = event.touches[0]
       this.startX = touch.clientX
       this.startY = touch.clientY
-      // console.log(this.startX)
-      // console.log(this.startY)
     },
     handleTouchMove  (e) {
       const touch = e.touches[0]

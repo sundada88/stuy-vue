@@ -39,7 +39,6 @@ class VueRouter {
   }
   initRouterMap () {
     return this.$options.routes.reduce((prev, curre) => {
-      console.log(curre)
       prev[curre.path] = curre.component
       return prev
     }, {})

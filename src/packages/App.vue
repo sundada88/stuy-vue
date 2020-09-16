@@ -1,34 +1,27 @@
 <template>
-  <div style="padding: 20px 0;">
-    <slider v-model="value"></slider>
+  <div>
+    <!-- <popup v-model="show">
+      <div class="content">
+        孙大大大好棒啊你真的牛鬼啊啊解
+      </div>
+    </popup> -->
+    <slider v-model="sliderValue"></slider>
   </div>
 </template>
 
 <script>
-
+// import popup from './popup'
 import slider from './slider'
 export default {
   data () {
     return {
-      checked: 1,
-      value: 20,
-      result: [
-        'a', 'b'
-      ],
-      list: ['a', 'b', 'c']
+      show: true,
+      sliderValue: 20
     }
   },
   components: {
+    // popup
     slider
-  },
-  mounted () {
-    // setInterval(() => {
-    //   if (this.checked < 100) {
-    //     this.checked++
-    //   } else {
-    //     this.checked = 0
-    //   }
-    // }, 100)
   }
 }
 </script>
@@ -38,5 +31,9 @@ export default {
   width: 50px;
   background: pink;
   border-radius: 5px;
+}
+.content {
+  width: 100px;
+  background: red;
 }
 </style>
