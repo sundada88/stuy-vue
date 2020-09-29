@@ -19,6 +19,7 @@ export const create = function (component, propsData) {
   // }
   // return comp
   // 使用extend
+  // 注意传入的参数是propsData
   const Instance = Vue.extend(component)
   const vm = new Instance({ propsData })
   vm.$mount()
