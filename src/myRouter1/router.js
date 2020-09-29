@@ -2,7 +2,7 @@
  * @Author: sundada
  * @Date: 2020-08-02 15:15:06
  * @Last Modified by: sundada
- * @Last Modified time: 2020-08-04 11:42:50
+ * @Last Modified time: 2020-09-29 16:46:33
  */
 /* eslint-disable */
 class HistoryRouter {
@@ -43,6 +43,7 @@ VueRouter.install = function (vue) {
   vue.mixin({
     beforeCreate () {
       // console.log(this.$options)
+      // 这种方式没有将router实例挂载到Vue的原型上面
       if (this.$options && this.$options.router) {
         this._root = this
         this._router = this.$options.router
