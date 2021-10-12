@@ -1,17 +1,12 @@
 <template>
   <div class="progress">
-    <span
-      class="progress-pivot"
-      :style="pivotStyle"
-    >
+    <span class="progress-pivot" :style="pivotStyle">
       <span
         v-if="!$slots.default"
         class="progress-content progress-content-position"
-      >{{content}}</span>
-      <span
-        v-if="$slots.default"
-        class="progress-content-position"
+        >{{ content }}</span
       >
+      <span v-if="$slots.default" class="progress-content-position">
         <slot></slot>
       </span>
     </span>
@@ -39,7 +34,7 @@ export default {
     },
     pivotStyle () {
       return {
-        width: `${(this.width - 50) * this.percentage / 100 + 50}px`
+        width: `${((this.width - 50) * this.percentage) / 100 + 50}px`
       }
     }
   },

@@ -1,14 +1,6 @@
-
 <template>
-  <div
-    class="slider"
-    ref="slider"
-  >
-    <span
-      class="slider_line"
-      ref="line"
-      :style="lineStyle"
-    >
+  <div class="slider" ref="slider">
+    <span class="slider_line" ref="line" :style="lineStyle">
       <span
         class="slider_btn"
         ref="btn"
@@ -33,7 +25,8 @@ export default {
   computed: {
     lineStyle () {
       return {
-        width: `${(this.sliderWidth - this.btnWidth) * this.value / 100 + this.btnWidth}px`
+        width: `${((this.sliderWidth - this.btnWidth) * this.value) / 100 +
+          this.btnWidth}px`
       }
     }
   },
@@ -46,7 +39,7 @@ export default {
       this.startX = touch.clientX
       this.startY = touch.clientY
     },
-    handleTouchMove  (e) {
+    handleTouchMove (e) {
       const touch = e.touches[0]
       this.deltaX = touch.clientX - this.startX
       const rect = this.$el.getBoundingClientRect()

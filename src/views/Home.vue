@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <Test v-model="name"></Test>
-    {{name}}
+    <!-- <Test v-model="name"></Test> -->
+    {{ name }}
     <One></One>
     <div class="box">
       <div class="container">
@@ -11,32 +11,31 @@
     <!-- <Parent msg="sundadaniubi"
             @test="handleTest"></Parent>
     <h1>{{test}}</h1> -->
-    <Sform :model="model"
-           ref="form"
-           :rules="rules">
-      <Sformitem label="名字"
-                 prop="username">
+    <Sform :model="model" ref="form" :rules="rules">
+      <Sformitem label="名字" prop="username">
         <div>
           <div>
             <div>
-              <Sinput placeholder="请填写名字"
-                      v-model="model.username"></Sinput>
-
+              <Sinput
+                placeholder="请填写名字"
+                v-model="model.username"
+              ></Sinput>
             </div>
           </div>
         </div>
       </Sformitem>
-      <Sformitem label="密码"
-                 prop="password">
-        <Sinput type="password"
-                placeholder="请填写密码"
-                v-model="model.password"></Sinput>
+      <Sformitem label="密码" prop="password">
+        <Sinput
+          type="password"
+          placeholder="请填写密码"
+          v-model="model.password"
+        ></Sinput>
       </Sformitem>
       <Sformitem>
         <button @click="handleClick">提交</button>
       </Sformitem>
     </Sform>
-    <h1>{{model}}</h1>
+    <h1>{{ model }}</h1>
   </div>
 </template>
 
@@ -49,7 +48,7 @@ import Sform from '@/components/Sform.vue'
 import Sinput from '@/components/Sinput.vue'
 import Sformitem from '@/components/Sformitem.vue'
 import One from '@/components/One'
-import Test from '@/components/FunctionalInput'
+// import Test from '@/components/FunctionalInput'
 
 export default {
   name: 'Home',
@@ -82,7 +81,7 @@ export default {
     Sform,
     Sinput,
     Sformitem,
-    Test,
+    // Test,
     One
   },
   methods: {
@@ -91,7 +90,6 @@ export default {
     },
     handleClick () {
       this.$refs.form.validate(isValidate => {
-        console.log(isValidate)
         const notice = create(Notice, {
           title: '提示信息A',
           message: isValidate ? '成功A ' : '失败'
@@ -105,14 +103,10 @@ export default {
       })
     }
   },
-  mounted () {
-    console.log(this._data)
-    console.log(this.$data)
-    console.log(this._data === this.$data)
-  }
+  mounted () {}
 }
 </script>
-<style >
+<style>
 .box {
   font-size: 16px;
 }

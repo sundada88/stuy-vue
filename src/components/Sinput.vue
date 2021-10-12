@@ -1,9 +1,6 @@
 <template>
   <div>
-    <input :type="type"
-           v-bind="$attrs"
-           :value="value"
-           @input="handleInput" />
+    <input :type="type" v-bind="$attrs" :value="value" @input="handleInput" />
   </div>
 </template>
 

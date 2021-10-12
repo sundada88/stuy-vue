@@ -1,6 +1,6 @@
 import Vue from 'vue'
-// import App from './packages/App.vue'
-import App from './App.vue'
+import App from './packages/App.vue'
+// import App from './App.vue'
 // import router from './myRouter1'
 // import router from './Router1'
 import router from './sundadaRouter'
@@ -9,11 +9,22 @@ import router from './sundadaRouter'
 // import store from './StoreFinal'
 // import store from './Mystore2'
 import store from './Mystore'
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 // import store from './store'
 // import router from './router'
-
+const useTest = {
+  install (Vue) {
+    // console.dir(Vue.util.defineReactiv)
+    const obj = {}
+    Vue.util.defineReactive(obj, '_test', 111)
+    Vue.prototype.$obj = obj
+  }
+}
+Vue.use(useTest)
 Vue.config.productionTip = false
 
+console.log('Vue.options', Vue.options)
 new Vue({
   router,
   store,
