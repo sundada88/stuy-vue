@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import App from './packages/App.vue'
+import App from './list/index.vue'
+// import App from './packages/App.vue'
 // import App from './App.vue'
 // import router from './myRouter1'
 // import router from './Router1'
