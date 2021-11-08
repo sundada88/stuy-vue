@@ -44,6 +44,20 @@ export default {
     }
   },
   methods: {
+    setStatus  (distance, isLoading) {
+      const pullDistance = +(this.pullDistance || this.headHeight)
+      this.distance = distance
+
+      if (isLoading) {
+        this.status = 'loading'
+      } else if (distance === 0) {
+        this.status = 'normal'
+      } else if (distance < pullDistance) {
+        this.status = 'pulling'
+      } else {
+        this.status = 'loosing'
+      }
+    },
     reset () {
       this.deltaX = 0
       this.deltaY = 0
@@ -59,6 +73,12 @@ export default {
     value: {
       handler (newVal) {
         console.log('value', newVal)
+        this.duration = this.animationDuration
+        if (newVal) {
+          this.setStatus(this.headHeight, true)
+        } else {
+          this.setStatus(0, false)
+        }
       }
     }
   },
@@ -102,6 +122,20 @@ export default {
         ? `translate3d(0,${this.distance}px, 0)`
         : ''
     }
+    const setStatus = (distance, isLoading) => {
+      const pullDistance = +(this.pullDistance || this.headHeight)
+      this.distance = distance
+      console.log('distance', distance)
+      if (isLoading) {
+        this.status = 'loading'
+      } else if (distance === 0) {
+        this.status = 'normal'
+      } else if (distance < pullDistance) {
+        this.status = 'pulling'
+      } else {
+        this.status = 'loosing'
+      }
+    }
     const ease = (distance) => {
       const pullDistance = +(this.pullDistance || this.headHeight)
       if (distance > pullDistance) {
@@ -118,7 +152,6 @@ export default {
       this.duration = 0
       this.startX = e.touches[0].clientX
       this.startY = e.touches[0].clientY
-      this.status = 'loading'
     }
     const getDirection = (x, y) => {
       if (x > y && x > MIN_DISTANCE) {
@@ -138,12 +171,15 @@ export default {
       this.direction = getDirection(this.offsetX, this.offsetY)
       this.deltaY = ease(this.deltaY)
       this.distance = this.deltaY
+      setStatus(this.distance)
     }
     const onTouchEnd = (e) => {
       this.duration = this.animationDuration
       console.log('this.status', this.status)
       if (this.status === 'loosing') {
-        this.status = 'loading'
+        setStatus(this.headHeight, true)
+        console.log(11111111111111111)
+        // this.$emit('input', true)
         this.$emit('input', true)
       } else {
         this.distance = 0

@@ -12,9 +12,20 @@ export default {
   components: {
     pullRefresh
   },
+  watch: {
+    loading (newVal) {
+      console.log('loading', newVal)
+    }
+  },
   data () {
     return {
-      loading: true
+      loading: false
+    }
+  },
+  methods: {
+    handleInput (newVal) {
+      console.log(this.loading)
+      console.log('handleInput', newVal)
     }
   }
 }
