@@ -1,0 +1,87 @@
+<script>
+  class BigHeap {
+    constructor (cmf = (a, b) => a > b) {
+      // 用于存储堆中的数据
+      this.arr = []
+      // 堆中的元素的数量
+      this.count = 0
+      this.cmf = cmf
+    }
+
+    // 交换arr中的两个数据
+    swap (a, b) {
+      const temp = this.arr[a]
+      this.arr[a] = this.arr[b]
+      this.arr[b] = temp
+    }
+
+    // 将元素放入堆中
+    push (val) {
+      this.arr.push(val)
+      this.count++
+      let index = this.count - 1
+      // while (index && this.arr[Math.floor((index - 1) / 2)] < this.arr[index]) {
+      while (
+        index &&
+        this.cmf(this.arr[index], this.arr[Math.floor((index - 1) / 2)])
+      ) {
+        this.swap(Math.floor((index - 1) / 2), index)
+        index = Math.floor((index - 1) / 2)
+      }
+    }
+
+    // 将堆顶元素推出
+    pop () {
+      if (this.count === 0) return null
+      const res = this.top()
+      // 将最后一个元素放置到首位置
+      this.arr[0] = this.arr.pop()
+      this.count--
+      let index = 0
+      // 堆中的最大下标
+      const count = this.count - 1
+      // 表明 index 有子节点
+      while (index * 2 + 1 <= count) {
+        // temp 用来存储以 index 作为根节点所形成的三角区域中最大的元素的下标
+        let temp = index
+        // if (this.arr[index * 2 + 1] > this.arr[index]) {
+        if (this.cmf(this.arr[index * 2 + 1], this.arr[index])) {
+          // 更新 temp
+          temp = index * 2 + 1
+        }
+        if (
+          count >= index * 2 + 2 &&
+          this.cmf(this.arr[index * 2 + 2], this.arr[temp])
+          // this.arr[temp] < this.arr[index * 2 + 2]
+        ) {
+          // 更新 temp
+          temp = index * 2 + 2
+        }
+        // 如果以 index 作为根节点所形成的三角区域中最大的元素就是 index ，则没有必要往下继续比较
+        if (temp === index) break
+
+        this.swap(index, temp)
+        // 继续以新的 index 作为根节点，然后比较三角区域
+        index = temp
+      }
+      return res
+    }
+
+    // 返回堆顶元素
+    top () {
+      if (this.count === 0) return null
+      return this.arr[0]
+    }
+  }
+  const big = new BigHeap((a, b) => a.value > b.value)
+  big.push({ value: 1 })
+  big.push({ value: 3 })
+  big.push({ value: 6 })
+  big.push({ value: 5 })
+  big.push({ value: 2 })
+  console.log(big.pop())
+  console.log(big.pop())
+  console.log(big.pop())
+  console.log(big.pop())
+  console.log(big.pop())
+</script>
